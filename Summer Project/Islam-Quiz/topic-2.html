@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<title>Summer Quiz</title>	
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css">
+		<link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css">  
+		<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+		
+		<script type = "text/javascript" src = "script/script.js"></script>
+		<script>
+		var prophetNames = ["Adam","Idris","Nuh","Hud","Salleh","Ibrahim","Lut","Ismail","Ishak","Ya'kub","Yusuf","Ayyub"];
+		var random = ["Elias","Chris","Aakel","Ali","Jalal","Badri","Wajeeb","Raihan","Shakel","Misfar","Jafar","Farhat"];
+		function genButtons()
+		{	
+			for(var a = 0; a < prophetNames.length; a++)
+			{
+				document.getElementById("prophetNames").innerHTML += "<button id = " + a + " draggable = " + "true" + " ondragstart = " + "drag(event)" + " ondrop = " + "drop(event)" + " ondragover = " + "allowDrop(event)" + " onclick = " + "move(" + a + ")" + ">" + prophetNames[a] + "</button>";
+				document.getElementById("prophetNames").innerHTML += "<button id = " + "btnG" + a + " draggable = " + "false" + " ondragstart = " + "drag(event)"  + " onclick = " + "markWrong()" + ">" + random[a] + "</button>";
+			}
+			/*for(var a = 0; a < random.length; a++)
+			{
+				document.getElementById("gregButtonMonths").innerHTML += "<button id = " + "btn" + a + " draggable = " + "true" + " ondragstart = " + "drag(event)" + ">" + random[a] + "</button><br/><br/>";
+			}	*/
+			//document.getElementById("buttonMonths").innerHTML = prophetNames;
+		}
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function drag(ev) {
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+
+		function markWrong(){
+			var audio = document.getElementById("audio");
+			audio.play();
+		}
+
+		function move(btnId){
+			var btn = document.getElementById(btnId); 
+			var divBlock = document.getElementById("prophetNames");
+			var divTransfer = document.getElementById("answer");
+			divBlock.removeChild(btn);
+			divTransfer.appendChild(btn);
+			
+		}
+		function restart(){
+			var divBlock = document.getElementById("prophetNames");
+			var divTransfer = document.getElementById("answer");
+			divBlock.innerHTML = "";
+			divTransfer.innerHTML = "";
+			genButtons();
+		}
+
+
+		</script>
+	</head>
+
+<body onload = "addHeader();addFooter();genButtons()">
+	<div class = "container">
+		<div id = "header"></div>
+		<h4>Prophet Names (part 1)</h4>
+		<div class="row">
+			<p>Click on the right answer</p>
+			<p><button onclick = "restart()">Restart</button></p>
+		</div>
+		<div class="row">
+			<div class="one-half column" ondrop = "drop(event)" ondragover = "allowDrop(event)">
+				<p id = "answer">
+			</div>
+			<div class="one-half column">
+				<p id = "prophetNames"></p>
+			</div>	
+			<audio id = "audio" src ="audio\alert2.mp3" hidden = "hidden"></audio>
+		</div>
+	</div>
+	
+	<div class = "container">
+		<div class = "row">
+			<div id = "footer"></div>
+		</div>
+	</div>		
+</body>
+</html>
