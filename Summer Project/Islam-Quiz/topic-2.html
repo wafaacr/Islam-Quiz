@@ -12,13 +12,28 @@
 		<script type = "text/javascript" src = "script/script.js"></script>
 		<script>
 		var prophetNames = ["Adam","Idris","Nuh","Hud","Salleh","Ibrahim","Lut","Ismail","Ishak","Ya'kub","Yusuf","Ayyub"];
-		var random = ["Elias","Chris","Aakel","Ali","Jalal","Badri","Wajeeb","Raihan","Shakel","Misfar","Jafar","Farhat"];
-		function genButtons()
+		var randomNames = ["Elias","Chris","Aakel","Ali","Jalal","Badri","Wajeeb","Raihan","Shakel","Misfar","Jafar","Farhat"];
+		
+		shuffleArray(prophetNames);
+		shuffleArray(randomNames);
+		
+		// Shuffle arrays
+		function shuffleArray(array)
+		{
+			for(var i = array.length - 1; i > 0; i--){
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			}
+		}
+		
+		function printArray()
 		{	
 			for(var a = 0; a < prophetNames.length; a++)
 			{
-				document.getElementById("prophetNames").innerHTML += "<button id = " + a + " draggable = " + "true" + " ondragstart = " + "drag(event)" + " ondrop = " + "drop(event)" + " ondragover = " + "allowDrop(event)" + " onclick = " + "move(" + a + ")" + ">" + prophetNames[a] + "</button>";
-				document.getElementById("prophetNames").innerHTML += "<button id = " + "btnG" + a + " draggable = " + "false" + " ondragstart = " + "drag(event)"  + " onclick = " + "markWrong()" + ">" + random[a] + "</button>";
+				document.getElementById("names").innerHTML += "<button id = " + a + " draggable = " + "true" + " ondragstart = " + "drag(event)" + " ondrop = " + "drop(event)" + " ondragover = " + "allowDrop(event)" + " onclick = " + "move(" + a + ")" + ">" + prophetNames[a] + "</button>";
+				document.getElementById("names").innerHTML += "<button id = " + "btnG" + a + " draggable = " + "false" + " ondragstart = " + "drag(event)"  + " onclick = " + "markWrong(this.id)" + ">" + randomNames[a] + "</button>";
 			}
 			/*for(var a = 0; a < random.length; a++)
 			{
@@ -47,25 +62,30 @@
 
 		function move(btnId){
 			var btn = document.getElementById(btnId); 
-			var divBlock = document.getElementById("prophetNames");
+			var divBlock = document.getElementById("names");
 			var divTransfer = document.getElementById("answer");
 			divBlock.removeChild(btn);
 			divTransfer.appendChild(btn);
 			
 		}
 		function restart(){
-			var divBlock = document.getElementById("prophetNames");
+			var divBlock = document.getElementById("names");
 			var divTransfer = document.getElementById("answer");
 			divBlock.innerHTML = "";
 			divTransfer.innerHTML = "";
-			genButtons();
+			printArray();
 		}
 
+		// Mark wrong answer
+		function markWrong(btnId){
+			var btn = document.getElementById(btnId).value;
+			alert("Wrong answer");			
+		}
 
 		</script>
 	</head>
 
-<body onload = "addHeader();addFooter();genButtons()">
+<body onload = "addHeader();addFooter();printArray()">
 	<div class = "container">
 		<div id = "header"></div>
 		<h4>Prophet Names (part 1)</h4>
@@ -78,7 +98,7 @@
 				<p id = "answer">
 			</div>
 			<div class="one-half column">
-				<p id = "prophetNames"></p>
+				<p id = "names"></p>
 			</div>	
 			<audio id = "audio" src ="audio\alert2.mp3" hidden = "hidden"></audio>
 		</div>
