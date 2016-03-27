@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<title>Summer Quiz</title>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css">
+		<link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css">  
+		<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+		<style>
+		#div1 {width:100px;height:250px;padding:10px;border:1px solid #aaaaaa;}
+		</style>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script type = "text/javascript" src = "script/script.js"></script>
+		<script>
+		var islamMonths = ["Muharram","Safar","Rabiul-Awal","Rabiul-Akhir","Jamadil-Awal","Jamadil-Akhir","Rejab","Syaaban","Ramadhan","Shawal","Zulkaedah","Zulhijjah"];
+		var gregMonths = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+		
+		shuffleArray(islamMonths);
+		shuffleArray(gregMonths);
+		
+		// Shuffle arrays
+		function shuffleArray(array)
+		{
+			for(var i = array.length - 1; i > 0; i--){
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			}
+		}
+		
+		// Print array
+		function printArray()
+		{	
+			for(var a = 0; a < islamMonths.length; a++)
+			{
+				document.getElementById("buttonsMonths").innerHTML += "<button id = " + a + " draggable = " + "true" + " ondragstart = " + "drag(event)" + " ondropbutton = " + "drobutton(event)" + " ondragover = " + "allowDrobutton(event)" + " onclick = " + "move(" + a + ")" + ">" + islamMonths[a] + "</button>";
+				document.getElementById("buttonsMonths").innerHTML += "<button id = " + "btnG" + a + " draggable = " + "false" + " ondragstart = " + "drag(event)"  + " onclick = " + "markWrong(this.id)" + " value = '" + gregMonths[a] + "'>" +  gregMonths[a] + "</button>";	
+			}
+		}
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		// Drag button 
+		function drag(ev) {
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+
+		// Drop button 
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+
+		// Move button content
+		function move(btnId){
+			var btn = document.getElementById(btnId); 
+			var divBlock = document.getElementById("buttonsMonths");
+			var divTransfer = document.getElementById("answer");
+			divBlock.removeChild(btn);
+			divTransfer.appendChild(btn);
+		}
+
+		// Refresh
+		function restart(){
+			var divBlock = document.getElementById("buttonsMonths");
+			var divTransfer = document.getElementById("answer");
+			divBlock.innerHTML = "";
+			divTransfer.innerHTML = "";
+			printArray();
+		}
+
+		// Mark wrong answer
+		function markWrong(btnId){
+			var btn = document.getElementById(btnId).value;
+			alert("Wrong answer");			
+		}
+		</script>
+</head>
+
+<body onload = "addHeader();addFooter();printArray()">
+	<div class = "container">
+		<div id = "header"></div>
+		<h4>Islamic Months</h4>
+			<div class = "row">
+				<p>Click on the right answer</p>
+				<p><button onclick = "restart()">Restart</button></p>
+			</div>
+			<div class = "row">
+				<div class="one-half column" ondrop = "drop(event)" ondragover = "allowDrop(event)">
+					<p id = "answer"></p>
+				</div>
+				<div class="one-half column">
+					<p id = "buttonsMonths"></p>
+				</div>
+				<audio id = "audio" src ="audio\alert2.mp3" hidden = "hidden"></audio>
+			</div>	
+	</div>
+	<div class = "container">
+		<div class = "row">
+			<div id = "footer"></div>
+		</div>
+	</div>		
+</body>
+</html>
